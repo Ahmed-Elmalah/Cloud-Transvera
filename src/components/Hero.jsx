@@ -1,5 +1,5 @@
 import { MdArrowForward, MdCheckCircle, MdCloudDone } from "react-icons/md";
-import heroImg from '../assets/Gemini_Generated_Image_xsb3c4xsb3c4xsb3.png'
+import heroImg from '../assets/logo.png'
 const Hero = () => {
   return (
     <section
