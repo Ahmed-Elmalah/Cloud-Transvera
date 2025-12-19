@@ -14,7 +14,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { i18n, t } = useTranslation();
 
-  // Navigation Data (Key for translation, ID for scrolling)
+  // Navigation Data
   const navLinks = [
     { key: "nav_home", id: "home" },
     { key: "nav_features", id: "features" },
@@ -29,27 +29,19 @@ const Navbar = () => {
     e.preventDefault();
 
     if (targetId === "home") {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       const element = document.getElementById(targetId);
       if (element) {
-        const offset = 80; // Navbar height + padding
+        const offset = 80;
         const bodyRect = document.body.getBoundingClientRect().top;
         const elementRect = element.getBoundingClientRect().top;
         const elementPosition = elementRect - bodyRect;
         const offsetPosition = elementPosition - offset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
       }
     }
-
-    // Close mobile menu
     setIsMenuOpen(false);
   };
 
@@ -62,7 +54,6 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-800 transition-all duration-300">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        
         {/* Logo Section */}
         <div
           className="flex items-center gap-2 shrink-0 cursor-pointer"
@@ -72,7 +63,7 @@ const Navbar = () => {
             <MdCloudUpload className="text-[28px]" />
           </div>
           <span className="text-xl font-bold tracking-tight text-primary-dark dark:text-white">
-            {t('nav_logo') || "Cloud Transvera"}
+            {t("nav_logo") || "Cloud Transvera"}
           </span>
         </div>
 
@@ -92,10 +83,8 @@ const Navbar = () => {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-3">
-          {/* Language Switcher */}
           <button
             onClick={toggleLanguage}
-            aria-label="Switch Language"
             className="flex items-center justify-center rounded-md p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
           >
             <span className="text-xs font-bold">
@@ -103,7 +92,6 @@ const Navbar = () => {
             </span>
           </button>
 
-          {/* Theme Toggle */}
           <button
             aria-label="Toggle Theme"
             className="flex items-center justify-center rounded-md p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
@@ -116,20 +104,30 @@ const Navbar = () => {
             )}
           </button>
 
-          {/* CTA Button */}
           <button
             onClick={(e) => handleScroll(e, "pricing")}
             className="h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-white transition-all hover:bg-blue-600 hover:shadow-glow active:scale-95 cursor-pointer"
           >
-            {t('nav_start_trial')}
+            {t("nav_start_trial")}
           </button>
         </div>
 
-        {/* Mobile Toggle Button */}
-        <div className="flex lg:hidden items-center gap-4">
+        {/* Mobile/Tablet Controls (Language & Theme next to Menu) */}
+        <div className="flex lg:hidden items-center gap-2">
+          {/* Mobile Language Switcher */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center justify-center rounded-md p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+          >
+            <span className="text-xs font-bold">
+              {i18n.language === "en" ? "AR" : "EN"}
+            </span>
+          </button>
+
+          {/* Mobile Theme Toggle */}
           <button
             aria-label="Toggle Theme"
-            className="text-slate-500 dark:text-slate-400"
+            className="p-2 text-slate-500 dark:text-slate-400"
             onClick={toggleTheme}
           >
             {theme === "dark" ? (
@@ -139,6 +137,7 @@ const Navbar = () => {
             )}
           </button>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-slate-700 dark:text-white p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -171,25 +170,12 @@ const Navbar = () => {
           <hr className="border-slate-100 dark:border-slate-800 mb-6" />
 
           <div className="flex flex-col gap-4">
-            {/* Mobile Language Switcher */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-slate-500 dark:text-slate-400">
-                Language
-              </span>
-              <button 
-                onClick={toggleLanguage}
-                className="flex items-center justify-center rounded-md bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-              >
-                 {i18n.language === "en" ? "AR" : "EN"}
-              </button>
-            </div>
-
-            {/* Mobile CTA */}
+            {/* Mobile CTA (Language Button removed from here as it's now in Header) */}
             <button
               onClick={(e) => handleScroll(e, "pricing")}
               className="w-full h-11 items-center justify-center rounded-lg bg-primary px-4 text-base font-bold text-white transition-all hover:bg-blue-600 active:scale-95 cursor-pointer"
             >
-              {t('nav_start_trial')}
+              {t("nav_start_trial")}
             </button>
           </div>
         </div>

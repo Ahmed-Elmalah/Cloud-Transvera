@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import { MdCheck } from "react-icons/md";
 import { filesPlans, vmPlans } from "../data/pricing";
+import { useTranslation } from "react-i18next";
 
 const Pricing = () => {
-  // State للتحويل بين الخطط
+  const { t, i18n } = useTranslation();
   const [isVm, setIsVm] = useState(false);
-
-  // المتغير اللي شايل الداتا اللي هتتعرض حالياً
   const currentPlans = isVm ? vmPlans : filesPlans;
 
-  // 👇👇 دالة الواتساب الجديدة 👇👇
+  // WhatsApp logic with translations
   const handleSubscribe = (plan) => {
-    const phoneNumber = "201064334334"; // رقمك
-    
-    // بنحدد نوع الباقة عشان تتكتب في الرسالة (Files ولا VM)
-    const category = isVm ? "VM/Server Backup" : "Files Backup";
+    const phoneNumber = "201064334334";
+    const category = isVm ? t("pricing_toggle_vm") : t("pricing_toggle_files");
 
-    // تجهيز نص الرسالة
-    const message = `Hello Cloud Transvera 👋,
-I am interested in the *${plan.title}* plan.
-Type: ${category}
-Price: ${plan.price} EGP/mo
-Storage: ${plan.storage}
-Please provide me with subscription details.`;
+    const message = `${t("wa_hello")}
+${t("wa_interest")} *${t(plan.title)}*.
+${t("wa_type")}: ${category}
+${t("wa_price")}: ${plan.price} ${t("pricing_egp_mo")}
+${t("wa_storage")}: ${plan.storage}
+${t("wa_footer")}`;
 
-    // فتح الرابط
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
   };
 
   return (
@@ -35,13 +32,13 @@ Please provide me with subscription details.`;
       className="py-24 bg-white dark:bg-background-dark transition-colors duration-300"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header section */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-black text-primary-dark dark:text-white sm:text-4xl">
-            Transparent Pricing in EGP
+            {t("pricing_title")}
           </h2>
           <p className="mt-4 text-slate-600 dark:text-slate-300">
-            No hidden fees. No dollar fluctuation surprises.
+            {t("pricing_subtitle")}
           </p>
         </div>
 
@@ -51,31 +48,31 @@ Please provide me with subscription details.`;
             className="relative flex h-14 w-80 cursor-pointer items-center rounded-full bg-slate-100 p-1.5 dark:bg-slate-800 select-none"
             onClick={() => setIsVm(!isVm)}
           >
-            {/* الدائرة المتحركة (The Pill) */}
+            {/* Pill animation - adjusted for RTL */}
             <div
-              className={`absolute h-11 w-[calc(50%-6px)] rounded-full bg-white shadow-md transition-transform duration-300 ease-out dark:bg-slate-700 ${
-                isVm ? "translate-x-full" : "translate-x-0"
-              }`}
+              className={`absolute h-11 w-[calc(50%-6px)] rounded-full bg-white shadow-md transition-transform duration-300 ease-out dark:bg-slate-700 
+                ${
+                  isVm
+                    ? i18n.language === "ar"
+                      ? "-translate-x-full"
+                      : "translate-x-full"
+                    : "translate-x-0"
+                }`}
             ></div>
 
-            {/* Text Labels */}
             <span
               className={`relative z-10 w-1/2 text-center text-sm transition-colors duration-300 font-bold ${
-                !isVm
-                  ? "text-primary-dark dark:text-white"
-                  : "text-slate-500 font-medium"
+                !isVm ? "text-primary-dark dark:text-white" : "text-slate-500"
               }`}
             >
-              Files Backup
+              {t("pricing_toggle_files")}
             </span>
             <span
               className={`relative z-10 w-1/2 text-center text-sm transition-colors duration-300 font-bold ${
-                isVm
-                  ? "text-primary-dark dark:text-white"
-                  : "text-slate-500 font-medium"
+                isVm ? "text-primary-dark dark:text-white" : "text-slate-500"
               }`}
             >
-              VM/Server Backup
+              {t("pricing_toggle_vm")}
             </span>
           </div>
         </div>
@@ -87,32 +84,32 @@ Please provide me with subscription details.`;
               key={plan.id}
               data-aos="fade-up"
               data-aos-delay={index * 100}
-              className={`relative flex flex-col rounded-2xl p-6 transition-all duration-300
-                ${
-                  plan.isPopular
-                    ? "border-2 border-primary bg-white shadow-xl shadow-primary/10 dark:bg-slate-800 dark:border-primary scale-105 z-10"
-                    : "border border-slate-200 bg-white shadow-sm hover:shadow-md dark:bg-slate-800 dark:border-slate-700"
-                }
-              `}
+              className={`relative flex flex-col rounded-2xl p-6 transition-all duration-300 ${
+                plan.isPopular
+                  ? "border-2 border-primary bg-white shadow-xl dark:bg-slate-800 scale-105 z-10"
+                  : "border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700"
+              }`}
             >
-              {/* Badge for Popular Plans */}
               {plan.isPopular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-bold text-white shadow-sm">
-                  {plan.badge}
+                  {t(plan.badge)}
                 </div>
               )}
 
               <h3 className="text-lg font-bold text-primary-dark dark:text-white">
-                {plan.title}
+                {t(plan.title)}
               </h3>
 
               <div className="mt-4 mb-6">
                 <span className="text-4xl font-black text-primary-dark dark:text-white">
                   {plan.price}
                 </span>
-                <span className="text-slate-500 font-medium"> EGP/mo</span>
+                <span className="text-slate-500 font-medium">
+                  {" "}
+                  {t("pricing_egp_mo")}
+                </span>
                 <p className="text-sm text-slate-400 mt-1">
-                  {plan.storage} Storage
+                  {plan.storage} {t("pricing_storage_label")}
                 </p>
               </div>
 
@@ -122,24 +119,21 @@ Please provide me with subscription details.`;
                     key={idx}
                     className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300"
                   >
-                    <MdCheck className="text-accent-green text-[18px]" />
-                    {feature}
+                    <MdCheck className="text-accent-green text-[18px] shrink-0" />
+                    {t(feature)}
                   </li>
                 ))}
               </ul>
 
-              {/* 👇👇 الزرار اتربط بالدالة هنا 👇👇 */}
               <button
                 onClick={() => handleSubscribe(plan)}
-                className={`w-full rounded-lg py-3 text-sm font-bold transition-colors cursor-pointer
-                  ${
-                    plan.isPopular
-                      ? "bg-primary text-white hover:bg-blue-600 shadow-lg shadow-blue-500/20"
-                      : "bg-slate-100 text-primary-dark hover:bg-slate-200 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600"
-                  }
-                `}
+                className={`w-full rounded-lg py-3 text-sm font-bold transition-colors ${
+                  plan.isPopular
+                    ? "bg-primary text-white hover:bg-blue-600 shadow-lg shadow-blue-500/20"
+                    : "bg-slate-100 text-primary-dark hover:bg-slate-200 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600"
+                }`}
               >
-                Subscribe Now
+                {t("pricing_btn")}
               </button>
             </div>
           ))}

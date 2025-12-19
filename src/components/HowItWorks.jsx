@@ -1,21 +1,25 @@
 import { MdDownload, MdSyncLock, MdHistory } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 const HowItWorks = () => {
+  const { t } = useTranslation();
+
+  // Steps configuration
   const steps = [
     {
       icon: <MdDownload className="text-[40px] text-primary" />,
-      title: "1. Connect",
-      desc: "We install a lightweight agent on your system in under 5 minutes.",
+      title: t('step_1_title'),
+      desc: t('step_1_desc'),
     },
     {
       icon: <MdSyncLock className="text-[40px] text-primary" />,
-      title: "2. Sync",
-      desc: "Data encrypts and syncs locally and to Azure Cloud instantly.",
+      title: t('step_2_title'),
+      desc: t('step_2_desc'),
     },
     {
       icon: <MdHistory className="text-[40px] text-primary" />,
-      title: "3. Recover",
-      desc: "Restore any file or server in minutes, not days. Zero downtime.",
+      title: t('step_3_title'),
+      desc: t('step_3_desc'),
     },
   ];
 
@@ -25,17 +29,20 @@ const HowItWorks = () => {
       className="py-24 bg-background-light dark:bg-slate-900 transition-colors duration-300"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Header section */}
         <div className="text-center mb-16">
           <span className="text-primary font-bold tracking-wider uppercase text-sm">
-            Process
+            {t('how_it_works_badge')}
           </span>
           <h2 className="mt-2 text-3xl font-black text-primary-dark dark:text-white sm:text-4xl">
-            Simple Setup, Powerful Protection
+            {t('how_it_works_title')}
           </h2>
         </div>
 
+        {/* Steps container */}
         <div className="relative grid md:grid-cols-3 gap-12">
-          {/* Connector Line (Desktop Only) */}
+          {/* Connector line */}
           <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-slate-200 dark:bg-slate-700 z-0"></div>
 
           {steps.map((step, index) => (
