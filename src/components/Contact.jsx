@@ -90,7 +90,7 @@ const Contact = () => {
                 <div>
                   <p className="text-sm font-bold text-slate-400">Email Us</p>
                   <p className="text-lg font-bold text-slate-900 dark:text-white">
-                    support@cloudtransvera.com
+                    cloudtransvera@gmail.com
                   </p>
                 </div>
               </div>

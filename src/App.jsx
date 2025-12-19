@@ -16,8 +16,21 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 
+import { useTranslation } from 'react-i18next';
+
 function App() {
   const { theme } = useThemeStore();
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    if (i18n.language === 'ar') {
+      document.documentElement.dir = 'rtl';
+      document.documentElement.lang = 'ar';
+    } else {
+      document.documentElement.dir = 'ltr';
+      document.documentElement.lang = 'en';
+    }
+  }, [i18n.language])
 
   useEffect(() => {
     const root = window.document.documentElement;
